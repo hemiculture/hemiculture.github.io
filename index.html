@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hémi : culture générale</title>
+<meta name="description" content="Ta culture G en 5 min par jour. Gratuit sur iPhone.">
+<meta property="og:title" content="Hémi : culture générale">
+<meta property="og:description" content="Ta culture G en 5 min par jour. Gratuit sur iPhone.">
+<meta property="og:image" content="icon.png">
+<meta name="theme-color" content="#0E5A5F">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@900&family=Sofia+Sans:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --teal:#0E5A5F; --teal-d:#0A4347; --abricot:#FF9A3C; --abricot-d:#D97A22; --papier:#FFF8EF; --encre:#1B1D1F; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; }
+  body { background:var(--teal); color:var(--papier); font-family:'Sofia Sans', system-ui, sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:24px 16px calc(24px + env(safe-area-inset-bottom)); }
+  main { width:100%; max-width:380px; text-align:center; }
+  .icon { width:120px; height:120px; border-radius:28px; border:3px solid var(--papier); box-shadow:0 6px 0 var(--teal-d); }
+  h1 { font-family:'Sofia Sans Condensed', sans-serif; font-weight:900; font-size:52px; line-height:1; margin-top:20px; letter-spacing:.5px; }
+  .sub { font-weight:800; opacity:.85; margin-top:4px; font-size:18px; }
+  .pitch { font-size:20px; font-weight:600; margin:22px 0 28px; line-height:1.3; }
+  .btn { display:block; width:100%; background:var(--abricot); color:var(--encre); text-decoration:none;
+    font-family:'Sofia Sans Condensed', sans-serif; font-weight:900; font-size:26px; letter-spacing:.5px;
+    padding:18px 16px; border-radius:18px; box-shadow:0 6px 0 var(--abricot-d); transition:transform .08s, box-shadow .08s; }
+  .btn:active { transform:translateY(5px); box-shadow:0 1px 0 var(--abricot-d); }
+  .note { margin-top:14px; font-size:15px; opacity:.75; font-weight:600; }
+  .tiktok { display:none; margin-top:26px; background:var(--teal-d); border-radius:18px; padding:18px; text-align:left; font-size:16px; line-height:1.4; font-weight:600; }
+  .tiktok b { color:var(--abricot); }
+  .arrow { position:fixed; top:8px; right:14px; font-size:44px; color:var(--abricot); display:none; animation:bob 1s ease-in-out infinite; }
+  @keyframes bob { 50% { transform:translateY(-8px); } }
+  @media (prefers-reduced-motion: reduce) { .arrow { animation:none; } }
+  body.inapp .tiktok, body.inapp .arrow { display:block; }
+</style>
+</head>
+<body>
+<div class="arrow" aria-hidden="true">↗</div>
+<main>
+  <img class="icon" src="icon.png" alt="Icône de l'app Hémi">
+  <h1>Hémi</h1>
+  <p class="sub">culture générale</p>
+  <p class="pitch">Ta culture G en 5 min par jour, en jouant.</p>
+  <a id="go" class="btn" href="https://apps.apple.com/fr/app/id6822271274">Télécharger Hémi</a>
+  <p class="note">Gratuit · iPhone</p>
+  <div class="tiktok" id="aide">
+    Ça ne s'ouvre pas ? Appuie sur <b>•••</b> en haut à droite, puis sur <b>« Ouvrir dans le navigateur »</b>.
+  </div>
+</main>
+<script>
+  var STORE = 'https://apps.apple.com/fr/app/id6822271274';
+  var ua = navigator.userAgent || '';
+  var ios = /iPhone|iPad|iPod/i.test(ua);
+  // Navigateurs intégrés des réseaux sociaux (TikTok, Instagram, Facebook, Snapchat…)
+  var inApp = /musical_ly|Bytedance|TikTok|Instagram|FBAN|FBAV|Snapchat|Twitter/i.test(ua);
+  var go = document.getElementById('go');
+
+  if (inApp) {
+    document.body.classList.add('inapp');
+    if (ios) {
+      // Sur iPhone, ce lien demande à iOS d'ouvrir la page dans Safari, hors de TikTok.
+      var safari = 'x-safari-' + location.href.split('#')[0].replace(/\?.*$/, '') + '?go=1';
+      go.href = safari;
+      go.textContent = 'Ouvrir dans Safari';
+      setTimeout(function () { location.href = safari; }, 300);
+    }
+  } else if (/[?&]go=1/.test(location.search)) {
+    // Arrivé dans Safari depuis TikTok : on file directement sur l'App Store.
+    location.href = STORE;
+  }
+</script>
+</body>
+</html>
